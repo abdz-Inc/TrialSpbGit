@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-TrialspbgitApplication<trialspbgit>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.abdz.trialspbgit.TrialspbgitApplication",
+            "projectName": "trialspbgit",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
