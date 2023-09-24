@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.abdz.trialspbgit.enitity.Product;
+import com.abdz.trialspbgit.enitity.User;
 
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
@@ -25,4 +26,9 @@ public class ProductDAO {
         entityManager.persist(product);
     }
     
+    public Product findById(Integer id)
+    {
+        return entityManager.find(Product.class, id);
+    }
+
 }

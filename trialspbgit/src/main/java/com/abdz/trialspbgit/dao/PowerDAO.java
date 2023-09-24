@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.abdz.trialspbgit.enitity.Power;
+import com.abdz.trialspbgit.enitity.User;
 
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
@@ -23,6 +24,11 @@ public class PowerDAO {
     public void save(Power power)
     {
         entityManager.persist(power);
+    }
+
+    public Power findById(Integer id)
+    {
+        return entityManager.find(Power.class, id);
     }
     
 }

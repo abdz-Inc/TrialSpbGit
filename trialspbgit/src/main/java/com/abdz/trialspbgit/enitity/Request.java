@@ -128,6 +128,13 @@ public class Request {
         this.message = message;
     }
 
+    @Override
+    public String toString() {
+        return "Request [rid=" + rid + ", buyerid=" + buyerid + ", sellerid=" + sellerid + ", pid=" + pid + ", status="
+                + status + ", bidrate=" + bidrate + ", quantity=" + quantity + ", postdatetime=" + postdatetime
+                + ", message=" + message + "]";
+    }
+    
     
 
 }

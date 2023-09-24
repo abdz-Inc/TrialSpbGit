@@ -78,6 +78,12 @@ public class Meter {
         this.phnno = phnno;
     }
 
+    @Override
+    public String toString() {
+        return "Meter [mid=" + mid + ", capacity=" + capacity + ", name=" + name + ", address=" + address + ", phnno="
+                + phnno + "]";
+    }
+
     
 
 }

@@ -1,5 +1,7 @@
 package com.abdz.trialspbgit;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -25,17 +27,29 @@ public class TrialspbgitApplication{
 	}
 
 	@Bean
-	public CommandLineRunner commandLineRunner(PowerDAO pDAO) {
+	public CommandLineRunner commandLineRunner(RequestDAO pDAO) {
 		return runner -> {
 			// User user = new User(10000, "jhbwhdcw", "dcbhjh", "dhcld", "hifvhb cuhbc dch chdoi dihc ioudhci");
 			// Product product = new Product(0, 0, 0, null);
 			// Request r = new Request(0, 0, 0, null, 0, 0, null);
 			// Meter m = new Meter(0, "hb", "gviki", "8978654");
-			Power p = new Power(100002,"generated", 1, null);
+			// Power p = new Power(100002,"generated", 1, null);
+			List<Request> recv = pDAO.findAllRecievedRequest(1);
+			System.out.println("recieved");
+			for(Request r:recv)
+			{
+				System.out.println(r);
+			}
 
-			System.out.println("object created");
-			pDAO.save(p);
-			System.out.println("object saved");
+			List<Request> sent = pDAO.findAllSentRequest(1);
+			System.out.println("sent");
+			for(Request r:sent)
+			{
+				System.out.println(r);
+			}
+
+			// Power p = pDAO.findById(1);
+			// System.out.println(p);
 		};
 
 	}

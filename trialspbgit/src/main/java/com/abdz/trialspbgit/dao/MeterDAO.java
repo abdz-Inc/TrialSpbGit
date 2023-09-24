@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.abdz.trialspbgit.enitity.Meter;
+import com.abdz.trialspbgit.enitity.User;
 
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
@@ -23,6 +24,11 @@ public class MeterDAO {
     public void save(Meter meter)
     {
         entityManager.persist(meter);
+    }
+
+    public Meter findById(Integer id)
+    {
+        return entityManager.find(Meter.class, id);
     }
     
 }

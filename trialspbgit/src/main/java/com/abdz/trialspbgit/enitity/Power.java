@@ -79,5 +79,11 @@ public class Power {
         this.postdatetime = postdatetime;
     }
 
+    @Override
+    public String toString() {
+        return "Power [pid=" + pid + ", mid=" + mid + ", mode=" + mode + ", quantity=" + quantity + ", postdatetime="
+                + postdatetime + "]";
+    }
+
     
 }

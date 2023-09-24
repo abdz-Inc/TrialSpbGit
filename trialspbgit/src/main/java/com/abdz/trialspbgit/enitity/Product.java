@@ -80,7 +80,13 @@ public class Product {
         this.postdatetime = postdatetime;
     }
 
+    @Override
+    public String toString() {
+        return "Product [pid=" + pid + ", uid=" + uid + ", rate=" + rate + ", quantity=" + quantity + ", postdatetime="
+                + postdatetime + "]";
+    }
 
+    
     
 
 }

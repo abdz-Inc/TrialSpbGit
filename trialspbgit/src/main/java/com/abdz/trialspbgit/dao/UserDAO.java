@@ -25,5 +25,9 @@ public class UserDAO {
         entityManager.persist(user);
     }
 
+    public User findById(Integer id)
+    {
+        return entityManager.find(User.class, id);
+    }
 
 }

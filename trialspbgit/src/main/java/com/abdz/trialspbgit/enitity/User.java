@@ -92,6 +92,12 @@ public class User {
         this.description = description;
     }
 
+    @Override
+    public String toString() {
+        return "User [uid=" + uid + ", mid=" + mid + ", walletaccntno=" + walletaccntno + ", username=" + username
+                + ", gmail=" + gmail + ", description=" + description + "]";
+    }
 
+    
     
 }
