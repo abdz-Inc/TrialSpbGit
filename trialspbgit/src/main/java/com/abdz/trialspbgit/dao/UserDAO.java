@@ -3,6 +3,7 @@ package com.abdz.trialspbgit.dao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.abdz.trialspbgit.enitity.Power;
 import com.abdz.trialspbgit.enitity.User;
 
 import jakarta.persistence.EntityManager;
@@ -28,6 +29,25 @@ public class UserDAO {
     public User findById(Integer id)
     {
         return entityManager.find(User.class, id);
+    }
+
+    @Transactional
+    public void update(User user)
+    {
+        entityManager.merge(user);
+    }
+
+    @Transactional
+    public void delete(int id)
+    {
+        User user = entityManager.find(User.class,id);
+        entityManager.remove(user);
+    }
+
+    @Transactional
+    public int deleteAll(){
+        int numrows = entityManager.createQuery("Delete from User", User.class).executeUpdate();
+        return numrows;
     }
 
 }

@@ -31,4 +31,23 @@ public class MeterDAO {
         return entityManager.find(Meter.class, id);
     }
     
+    @Transactional
+    public void update(Meter meter)
+    {
+        entityManager.merge(meter);
+    }
+
+    @Transactional
+    public void delete(int id)
+    {
+        Meter meter = entityManager.find(Meter.class,id);
+        entityManager.remove(meter);
+    }
+
+    @Transactional
+    public int deleteAll(){
+        int numrows = entityManager.createQuery("Delete from Meter", Meter.class).executeUpdate();
+        return numrows;
+    }
+
 }

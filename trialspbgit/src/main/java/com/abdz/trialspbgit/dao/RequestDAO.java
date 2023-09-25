@@ -50,4 +50,23 @@ public class RequestDAO {
         return q.getResultList();
     }
 
+    @Transactional
+    public void update(Request request)
+    {
+        entityManager.merge(request);
+    }
+
+    @Transactional
+    public void delete(int id)
+    {
+        Request request = entityManager.find(Request.class,id);
+        entityManager.remove(request);
+    }
+
+    @Transactional
+    public int deleteAll(){
+        int numrows = entityManager.createQuery("Delete from Request", Request.class).executeUpdate();
+        return numrows;
+    }
+
 }
