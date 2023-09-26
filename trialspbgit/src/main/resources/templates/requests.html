@@ -172,17 +172,17 @@
         <div class="main-content">
             <ul class="request-list" th:each="request : ${recvrequests}">
                  
-                    <li th:class="'request '+${request.getStatus()}">
-                        <div class="request-title" th:onclick="toggleMessage('${request.getRid()}')" 
-                            th:text="'Sender: '+${request.getBuyerid()}+'<br>
-                            Rate: '+${request.getBidrate()}+'    |    Quantity: '+${request.getQuantity()}+'    |    Status: '+${request.getStatus()}">
+                    <li th:class="'request '+${request.value.getStatus()}">
+                        <div class="request-title" th:onclick="toggleMessage('${request.value.getRid()}')" 
+                            th:text="'Sender: '+${request.key.getUsername()}+'<br>
+                            Rate: '+${request.value.getBidrate()}+'    |    Quantity: '+${request.value.getQuantity()}+'    |    Status: '+${request.value.getStatus()}">
                         </div>
                         <div class="request-actions">
-                            <div class="action-button accept" th:onclick="acceptRequest('${request.getRid()}')" ><a th:href="@{/test/acceptrequest(requestid=${request.getRid()})}">&#10004;</a></div>
-                            <div class="action-button reject" th:onclick="rejectRequest('${request.getRid()}')" ><a th:href="@{/test/rejectrequest(requestid=${request.getRid()})}">&#10006;</a></div>
+                            <div class="action-button accept" th:onclick="acceptRequest('${request.value.getRid()}')" ><a th:href="@{/test/acceptrequest(requestid=${request.value.getRid()})}">&#10004;</a></div>
+                            <div class="action-button reject" th:onclick="rejectRequest('${request.value.getRid()}')" ><a th:href="@{/test/rejectrequest(requestid=${request.value.getRid()})}">&#10006;</a></div>
                         </div>
-                        <div class="request-message" th:id="'message-'+${request.getRid()}"
-                            th:text="${request.getMessage()}">
+                        <div class="request-message" th:id="'message-'+${request.value.getRid()}"
+                            th:text="${request.value.getMessage()}">
                         </div>
                     </li>
             </ul>

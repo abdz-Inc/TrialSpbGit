@@ -168,16 +168,16 @@
         <div class="main-content">
             <ul class="request-list" th:each="request : ${sentrequests}">
                  
-                    <li th:class="'request '+${request.getStatus()}">
-                        <div class="request-title" th:onclick="toggleMessage('${request.getRid()}')" 
-                            th:text="'Seller: '+${request.getSellerid()}+'<br>
-                            Rate: '+${request.getBidrate()}+'    |    Quantity: '+${request.getQuantity()}+'    |    Status: '+${request.getStatus()}">
+                    <li th:class="'request '+${request.value.getStatus()}">
+                        <div class="request-title" th:onclick="toggleMessage('${request.value.getRid()}')" 
+                            th:text="'Seller: '+${request.key.getUsername()}+'<br>
+                            Rate: '+${request.value.getBidrate()}+'    |    Quantity: '+${request.value.getQuantity()}+'    |    Status: '+${request.value.getStatus()}">
                         </div>
-                        <div th:if="${request.getStatus()=='accepted'}" class="request-actions">
-                            <div class="action-button accept" th:onclick="acceptRequest('${request.getRid()}')" ><a th:href="@{/test/payproposal(requestid=${request.getRid()})}">&#10004;</a></div>
+                        <div th:if="${request.value.getStatus()=='accepted'}" class="request-actions">
+                            <div class="action-button accept" th:onclick="acceptRequest('${request.value.getRid()}')" ><a th:href="@{/test/payproposal(requestid=${request.value.getRid()})}">&#10004;</a></div>
                         </div>
-                        <div class="request-message" th:id="'message-'+${request.getRid()}"
-                            th:text="${request.getMessage()}">
+                        <div class="request-message" th:id="'message-'+${request.value.getRid()}"
+                            th:text="${request.value.getMessage()}">
                         </div>
                     </li>
             </ul>

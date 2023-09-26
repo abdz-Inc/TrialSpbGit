@@ -1,5 +1,8 @@
 package com.abdz.trialspbgit.service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +52,17 @@ public class PowerService {
     public List<Request> getAllSentRequests(int id)
     {
         return requestDAO.findAllSentRequest(id);
+    }
+
+    public HashMap<User,Request> getUserAndRequest(List<Request> requests)
+    {
+        
+        HashMap<User, Request> mp = new HashMap<User, Request>();
+        for(Request request : requests)
+        {
+            mp.put(getUser(request.getBuyerid()), request);
+        }
+        return mp;
     }
 
     public User getUser(int id)

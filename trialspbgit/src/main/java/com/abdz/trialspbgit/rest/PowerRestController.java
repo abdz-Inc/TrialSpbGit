@@ -1,5 +1,6 @@
 package com.abdz.trialspbgit.rest;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -216,8 +217,9 @@ public class PowerRestController{
 			usr = (User) session.getAttribute("usr");
 		}
 		List<Request> recvrequests = powerService.getAllRecvRequests(usr.getUid());
+		HashMap<User, Request> recvrequestsanduser = powerService.getUserAndRequest(recvrequests);
 		
-		model.addAttribute("recvrequests", recvrequests);
+		model.addAttribute("recvrequests", recvrequestsanduser);
 		
 		
 		return "requests";
@@ -237,8 +239,8 @@ public class PowerRestController{
 			usr = (User) session.getAttribute("usr");
 		}
 		List<Request> sentrequests = powerService.getAllSentRequests(usr.getUid());
-		
-		model.addAttribute("sentrequests", sentrequests);
+		HashMap<User, Request> sentrequestsanduser = powerService.getUserAndRequest(sentrequests);
+		model.addAttribute("sentrequests", sentrequestsanduser);
 		
 		
 		return "proposal";
