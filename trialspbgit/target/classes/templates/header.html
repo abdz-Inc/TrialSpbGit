@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+
+</head>
+<body>
+<nav class="header-nav" th:fragment="header">
+    <a th:href="@{/test/products}" class="nav-link">Marketplace</a> |
+    <a th:href="@{/test/createproduct}" class="nav-link">Sell Product</a> |
+    <a th:href="@{/test/showrequests}" class="nav-link">Requests</a> |
+    <a th:href="@{/test/showbids}" class="nav-link">Proposals</a> |
+    <a th:href="profile.jsp" class="nav-link">Profile</a>
+</nav>
+</body>
+</html>

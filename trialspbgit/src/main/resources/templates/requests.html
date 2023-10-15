@@ -145,11 +145,12 @@
             var details = document.getElementById("details-" + requestId);
             details.style.display = details.style.display === "none" ? "block" : "none";
         }
-        function acceptRequest(requestId, wallet, rate, quantity) {
+        
+        function acceptRequestNew(requestId, walletBuyer, walletUser, rate, quantity) {
             // Implement accept request functionality here
             
             
-            alert("Accepted request with ID: " + requestId);
+            alert("Accepted request with ID: " + requestId+" "+walletBuyer+" "+walletUser+" "+rate+" "+quantity);
         }
         function rejectRequest(requestId) {
             // Implement reject request functionality here
@@ -178,8 +179,9 @@
                             Rate: '+${request.value.getBidrate()}+'    |    Quantity: '+${request.value.getQuantity()}+'    |    Status: '+${request.value.getStatus()}">
                         </div>
                         <div class="request-actions">
-                            <div class="action-button accept" th:onclick="acceptRequest('${request.value.getRid()}')" ><a th:href="@{/test/acceptrequest(requestid=${request.value.getRid()})}">&#10004;</a></div>
-                            <div class="action-button reject" th:onclick="rejectRequest('${request.value.getRid()}')" ><a th:href="@{/test/rejectrequest(requestid=${request.value.getRid()})}">&#10006;</a></div>
+                            <!-- "acceptRequestNew('${request.value.getRid()}','${request.key.getWalletaccntno()}', '${user.getWalletaccntno()}','${request.value.getRate()}','${request.value.getQuantity()}')" -->
+                            <div class="action-button accept" th:data-buyerwallet="${request.key.getWalletaccntno()}" th:data-userwallet="${user.getWalletaccntno()}" th:onclick="|acceptRequestNew('${request.value.getRid()}',this.getAttribute('data-buyerwallet'), this.getAttribute('data-userwallet'),'${request.value.getBidrate()}','${request.value.getQuantity()}')|" ><a th:href="@{/test/acceptrequest(requestid=${request.value.getRid()})}">&#10004;</a></div>
+                            <div class="action-button reject" th:onclick="|rejectRequest('${request.value.getRid()}')|" ><a th:href="@{/test/rejectrequest(requestid=${request.value.getRid()})}">&#10006;</a></div>
                         </div>
                         <div class="request-message" th:id="'message-'+${request.value.getRid()}"
                             th:text="${request.value.getMessage()}">

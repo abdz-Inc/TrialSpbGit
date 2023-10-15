@@ -1,0 +1,187 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>View Requests</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+        }
+        .container {
+            display: flex;
+            align-items: flex-start;
+            padding: 20px;
+        }
+        .sidebar {
+            width: 200px;
+            background-color: #34495E;
+            color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            margin-right: 20px;
+        }
+        .main-content {
+            flex: 1;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+        }
+        .filter-buttons {
+            margin-bottom: 20px;
+        }
+        .request-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .request:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+        .filter-button {
+            background-color: transparent;
+            border: none;
+            color: white;
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 3px;
+            margin-bottom: 5px;
+            display: block;
+            transition: background-color 0.2s ease-in-out;
+        }
+        .filter-button:hover {
+            background-color: #2c3e50;
+        }
+        
+        .header-nav {
+		    background: linear-gradient(to bottom, #2E4053, #34495E);
+		    padding: 15px 0;
+		    text-align: center;
+		    border-bottom: 4px solid #F39C12;
+		    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+		}
+		
+		.nav-link {
+		    color: #F39C12;
+		    text-decoration: none;
+		    font-size: 18px;
+		    margin: 0 20px;
+		    transition: color 0.3s ease;
+		}
+		
+		.nav-link:hover {
+		    color: #E74C3C;
+		}
+		.request {
+            /* ... (styles remain unchanged) ... */
+            position: relative;
+            cursor: pointer;
+            padding: 10px;
+            border: 1px solid #ccc;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .request-details {
+            /* ... (styles remain unchanged) ... */
+            display: block;
+            margin-top: 10px;
+        }
+        .request-actions {
+            /* ... (styles remain unchanged) ... */
+            display: flex;
+            align-items: center;
+        }
+        .action-button.accept {
+        background-color: #2ecc71;
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        margin-right: 10px;
+        transition: background-color 0.2s ease-in-out;
+    }
+    .action-button.reject {
+        background-color: #e74c3c;
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.2s ease-in-out;
+    }
+    .action-button.accept:hover,
+    .action-button.reject:hover {
+        background-color: #27ae60; /* Slightly darker shade for hover effect */
+    }
+        .request-message {
+            /* ... (styles remain unchanged) ... */
+            display: none;
+            margin-top: 10px;
+        }
+    </style>
+    <script>
+        function filterRequests(status) {
+            var requests = document.querySelectorAll(".request");
+            for (var i = 0; i < requests.length; i++) {
+                var request = requests[i];
+                if (status === "all" || request.classList.contains(status)) {
+                    request.style.display = "flex";
+                } else {
+                    request.style.display = "none";
+                }
+            }
+        }
+        function toggleRequestDetails(requestId ) {
+            var details = document.getElementById("details-" + requestId);
+            details.style.display = details.style.display === "none" ? "block" : "none";
+        }
+        function acceptRequestNew(requestId, walletBuyer, walletUser, rate, quantity) {
+            // Implement accept request functionality here
+            
+            
+            alert("Accepted request with ID: " + requestId+" "+walletBuyer+" "+walletUser+" "+rate+" "+quantity);
+        }
+    </script>
+</head>
+<body>
+	<header th:insert="/header :: header">
+        <!-- <%@include file="header.jsp" %> -->
+    </header>
+    <div class="container">
+        <div class="sidebar">
+            <h2>Filter Requests</h2>
+            <button class="filter-button" onclick="filterRequests('pending')">pending Requests</button>
+            <button class="filter-button" onclick="filterRequests('accepted')">Accepted Requests</button>
+            <button class="filter-button" onclick="filterRequests('rejected')">Rejected Requests</button>
+            <button class="filter-button" onclick="filterRequests('all')">Show All Requests</button>
+        </div>
+        <div class="main-content">
+            <ul class="request-list" th:each="request : ${sentrequests}">
+                 
+                    <li th:class="'request '+${request.value.getStatus()}">
+                        <div class="request-title" th:onclick="toggleMessage('${request.value.getRid()}')" 
+                            th:text="'Seller: '+${request.key.getUsername()}+'<br>
+                            Rate: '+${request.value.getBidrate()}+'    |    Quantity: '+${request.value.getQuantity()}+'    |    Status: '+${request.value.getStatus()}">
+                        </div>
+                        <div th:if="${request.value.getStatus()=='accepted'}" class="request-actions">
+                            <div class="action-button accept" th:data-buyerwallet="${request.key.getWalletaccntno()}" th:data-userwallet="${user.getWalletaccntno()}" th:onclick="|acceptRequestNew('${request.value.getRid()}',this.getAttribute('data-buyerwallet'), this.getAttribute('data-userwallet'),'${request.value.getBidrate()}','${request.value.getQuantity()}')|"  ><a th:href="@{/test/payproposal(requestid=${request.value.getRid()})}">&#10004;</a></div>
+                        </div>
+                        <div class="request-message" th:id="'message-'+${request.value.getRid()}"
+                            th:text="${request.value.getMessage()}">
+                        </div>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

@@ -29,11 +29,10 @@ public class Power {
     @Column(name="postdatetime")
     private Timestamp postdatetime;
 
-    public Power(int mid, String mode, int quantity, Timestamp postdatetime) {
+    public Power(int mid, String mode, int quantity) {
         this.mid = mid;
         this.mode = mode;
         this.quantity = quantity;
-        this.postdatetime = postdatetime;
     }
 
     public Power() {

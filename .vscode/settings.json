@@ -1,4 +1,19 @@
 {
     "java.compile.nullAnalysis.mode": "automatic",
-    "java.configuration.updateBuildConfiguration": "automatic"
+    "java.configuration.updateBuildConfiguration": "automatic",
+    "sqltools.connections": [
+        {
+            "mysqlOptions": {
+                "authProtocol": "default",
+                "enableSsl": "Disabled"
+            },
+            "previewLimit": 50,
+            "server": "den1.mysql1.gear.host",
+            "port": 3306,
+            "driver": "MySQL",
+            "name": "powermarket",
+            "database": "powermarket",
+            "username": "powermarket"
+        }
+    ]
 }

@@ -145,11 +145,11 @@
             var details = document.getElementById("details-" + requestId);
             details.style.display = details.style.display === "none" ? "block" : "none";
         }
-        function acceptRequest(requestId, wallet, rate, quantity) {
+        function acceptRequestNew(requestId, walletBuyer, walletUser, rate, quantity) {
             // Implement accept request functionality here
             
             
-            alert("Accepted request with ID: " + requestId);
+            alert("Accepted request with ID: " + requestId+" "+walletBuyer+" "+walletUser+" "+rate+" "+quantity);
         }
     </script>
 </head>
@@ -174,7 +174,7 @@
                             Rate: '+${request.value.getBidrate()}+'    |    Quantity: '+${request.value.getQuantity()}+'    |    Status: '+${request.value.getStatus()}">
                         </div>
                         <div th:if="${request.value.getStatus()=='accepted'}" class="request-actions">
-                            <div class="action-button accept" th:onclick="acceptRequest('${request.value.getRid()}')" ><a th:href="@{/test/payproposal(requestid=${request.value.getRid()})}">&#10004;</a></div>
+                            <div class="action-button accept" th:data-buyerwallet="${request.key.getWalletaccntno()}" th:data-userwallet="${user.getWalletaccntno()}" th:onclick="|acceptRequestNew('${request.value.getRid()}',this.getAttribute('data-buyerwallet'), this.getAttribute('data-userwallet'),'${request.value.getBidrate()}','${request.value.getQuantity()}')|"  ><a th:href="@{/test/payproposal(requestid=${request.value.getRid()})}">&#10004;</a></div>
                         </div>
                         <div class="request-message" th:id="'message-'+${request.value.getRid()}"
                             th:text="${request.value.getMessage()}">

@@ -1,0 +1,54 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Product Created</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+        }
+        .success-message {
+            color: #27ae60;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        .request-details {
+            font-size: 18px;
+        }
+        .back-link {
+            display: block;
+            color: #3498db;
+            text-decoration: none;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header th:insert="/smartgridheader :: header">
+        <!-- <%@include file="header.jsp" %> -->
+    </header>
+    <div class="container">
+        <p class="success-message">SmartMeter Added Successfully Sent!</p>
+        <div class="request-details">
+            <p>Here are the details:</p>
+            <p><strong>MeterId:</strong><span th:text="${meter.getMid()}"></span></p>
+            <p><strong>Name:</strong> <span th:text="${meter.getName()}"></span></p>
+            <p><strong>Address:</strong> <span th:text="${meter.getAddress()}"></span></p>
+            <p><strong>Capacity :</strong><span th:text="${meter.getCapacity()}"></span></p>
+            
+        </div>
+    </div>
+</body>
+</html>

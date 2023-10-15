@@ -1,5 +1,7 @@
 package com.abdz.trialspbgit.dao;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -7,6 +9,7 @@ import com.abdz.trialspbgit.enitity.Meter;
 import com.abdz.trialspbgit.enitity.User;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 
 @Repository
@@ -29,6 +32,12 @@ public class MeterDAO {
     public Meter findById(Integer id)
     {
         return entityManager.find(Meter.class, id);
+    }
+
+    public List<Meter> findAll()
+    {
+        TypedQuery<Meter> q = entityManager.createQuery("From Meter", Meter.class);
+        return q.getResultList();
     }
     
     @Transactional

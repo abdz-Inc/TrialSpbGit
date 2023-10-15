@@ -13,12 +13,15 @@ import com.abdz.trialspbgit.dao.PowerDAO;
 import com.abdz.trialspbgit.dao.ProductDAO;
 import com.abdz.trialspbgit.dao.RequestDAO;
 import com.abdz.trialspbgit.dao.UserDAO;
+import com.abdz.trialspbgit.enitity.Meter;
 import com.abdz.trialspbgit.enitity.Power;
 import com.abdz.trialspbgit.enitity.Product;
 import com.abdz.trialspbgit.enitity.Request;
 import com.abdz.trialspbgit.enitity.User;
+import com.abdz.trialspbgit.form.PowerForm;
 import com.abdz.trialspbgit.form.ProductForm;
 import com.abdz.trialspbgit.form.RequestForm;
+import com.abdz.trialspbgit.form.SmartMeterForm;
 
 @Service
 public class PowerService {
@@ -39,11 +42,20 @@ public class PowerService {
         this.powerDAO = powerDAO;
     } 
 
+    // public List<Product> validateProducts(List<Product> products)
+    // {
+    //     for(Product product: products)
+    //     {
+
+    //     }
+    // }
+
     public List<Product> getAllProducts()
     {
         return productDAO.findAll();
     }
 
+    
     public List<Request> getAllRecvRequests(int id)
     {
         return requestDAO.findAllRecievedRequest(id);
@@ -68,6 +80,11 @@ public class PowerService {
     public User getUser(int id)
     {
         return userDAO.findById(id);
+    }
+
+    public Meter getMeter(int id)
+    {
+        return meterDAO.findById(id);
     }
 
     public Product getProduct(int id)
@@ -170,7 +187,7 @@ public class PowerService {
         Product product = getProduct(request.getPid());
         product.setQuantity(product.getQuantity() - request.getQuantity());
         productDAO.update(product);
-        Power power = new Power(user.getMid(), "sold", request.getQuantity(), null);
+        Power power = new Power(user.getMid(), "sold", request.getQuantity());
         powerDAO.save(power);
         return request;
     }
@@ -189,9 +206,13 @@ public class PowerService {
         Request request = requestDAO.findById(requestid);
         request.setStatus("paid");
         requestDAO.update(request);
-        Power power = new Power(user.getMid(), "purchased", request.getQuantity(), null);
+        Power power = new Power(user.getMid(), "purchased", request.getQuantity());
         powerDAO.save(power);
         return request;
     }
+
+    
+
+    
 
 }

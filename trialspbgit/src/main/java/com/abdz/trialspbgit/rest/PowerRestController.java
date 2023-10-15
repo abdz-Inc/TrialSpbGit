@@ -31,7 +31,7 @@ import jakarta.servlet.http.HttpSession;
 @RequestMapping("/test")
 public class PowerRestController{
 
-    public PowerService powerService;
+    private PowerService powerService;
 
     
     @Autowired
@@ -216,6 +216,7 @@ public class PowerRestController{
 		else {
 			usr = (User) session.getAttribute("usr");
 		}
+		model.addAttribute("user", usr);
 		List<Request> recvrequests = powerService.getAllRecvRequests(usr.getUid());
 		HashMap<User, Request> recvrequestsanduser = powerService.getUserAndRequest(recvrequests);
 		
@@ -238,6 +239,7 @@ public class PowerRestController{
 		else {
 			usr = (User) session.getAttribute("usr");
 		}
+		model.addAttribute("user", usr);
 		List<Request> sentrequests = powerService.getAllSentRequests(usr.getUid());
 		HashMap<User, Request> sentrequestsanduser = powerService.getUserAndRequest(sentrequests);
 		model.addAttribute("sentrequests", sentrequestsanduser);
