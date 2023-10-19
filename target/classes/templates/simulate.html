@@ -143,11 +143,11 @@
     </header>
     <div class="product-container" th:each="smartmeter: ${smartmeters}">
         <div class="product">   
-            <img src="product1.jpg" th:alt="${smartmeter.value.getMid()}">
+            <img th:src="@{/images/prosumer.png}" th:alt="${smartmeter.value.getMid()}">
             
             <div class="product-details" >
                     <h2 th:text="${smartmeter.value.getMid()}"></h2>
-                    <p th:text="${smartmeter.value.getCapacity()}"></p>
+                    <p th:text="'Capacity : '+${smartmeter.value.getCapacity()}"></p>
                     <p th:text="${smartmeter.value.getName()}+' | '+${smartmeter.value.getAddress()}"></p>
             </div>
             <button class="expand-button">Generate/Consume Energy</button>

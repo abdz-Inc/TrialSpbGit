@@ -20,6 +20,7 @@ import com.abdz.trialspbgit.enitity.Request;
 import com.abdz.trialspbgit.enitity.User;
 import com.abdz.trialspbgit.form.PowerForm;
 import com.abdz.trialspbgit.form.ProductForm;
+import com.abdz.trialspbgit.form.RegisterForm;
 import com.abdz.trialspbgit.form.RequestForm;
 import com.abdz.trialspbgit.form.SmartMeterForm;
 
@@ -55,6 +56,16 @@ public class PowerService {
         return productDAO.findAll();
     }
 
+    public HashMap<Product, User> getUserAndProduct(List<Product> products)
+    {
+        HashMap<Product, User> mp = new HashMap<Product, User>();
+        for(Product product : products)
+        {
+            mp.put(product,getUser(product.getUid()));
+        }
+        return mp;
+    }
+
     
     public List<Request> getAllRecvRequests(int id)
     {
@@ -73,6 +84,17 @@ public class PowerService {
         for(Request request : requests)
         {
             mp.put(getUser(request.getBuyerid()), request);
+        }
+        return mp;
+    }
+
+    public HashMap<User,Request> getUserAndProposal(List<Request> requests)
+    {
+        
+        HashMap<User, Request> mp = new HashMap<User, Request>();
+        for(Request request : requests)
+        {
+            mp.put(getUser(request.getSellerid()), request);
         }
         return mp;
     }
@@ -176,6 +198,22 @@ public class PowerService {
             return null;
         }
         return product;
+    }
+
+    public User createUserFromForm(RegisterForm registerForm)
+    {
+        User user;
+        
+        try{
+            user = new User(registerForm.getMid(),registerForm.getWalletaccntno(),registerForm.getUsername(),registerForm.getGmail(),registerForm.getDescription());
+            userDAO.save(user);
+        }
+        catch(Exception e)
+        {
+            System.out.println(e);
+            return null;
+        }
+        return user;
     }
 
     public Request acceptRequest(int requestid, int uid)

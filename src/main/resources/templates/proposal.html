@@ -159,7 +159,7 @@
     </header>
     <div class="container">
         <div class="sidebar">
-            <h2>Filter Requests</h2>
+            <h2>Filter Proposals</h2>
             <button class="filter-button" onclick="filterRequests('pending')">pending Requests</button>
             <button class="filter-button" onclick="filterRequests('accepted')">Accepted Requests</button>
             <button class="filter-button" onclick="filterRequests('rejected')">Rejected Requests</button>
@@ -170,7 +170,8 @@
                  
                     <li th:class="'request '+${request.value.getStatus()}">
                         <div class="request-title" th:onclick="toggleMessage('${request.value.getRid()}')" 
-                            th:text="'Seller: '+${request.key.getUsername()}+'<br>
+                            th:text="'Seller: '+${request.key.getUsername()}+'
+                            
                             Rate: '+${request.value.getBidrate()}+'    |    Quantity: '+${request.value.getQuantity()}+'    |    Status: '+${request.value.getStatus()}">
                         </div>
                         <div th:if="${request.value.getStatus()=='accepted'}" class="request-actions">

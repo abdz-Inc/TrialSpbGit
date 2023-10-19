@@ -109,12 +109,12 @@
         
                <div class="product" onclick="toggleBuyButton(this)">
                
-            <img src="product1.jpg" th:alt="${product.getPid()}">
+                <img th:src="@{/images/energyicon.png}" th:alt="${product.key.getPid()}">
             <div class="product-details">
-                    <h2 th:text="${product.getUid()}"></h2>
-                    <p th:text="${product.getQuantity()}"></p>
-                    <p th:text="${product.getRate()}"></p>
-                    <a class="buy-button" th:href="@{/test/buydetails(pid=${product.getPid()})}">Buy</a>
+                    <h2 th:text="${product.value.getUsername()}"></h2>
+                    <p th:text="'Quantity(kW) : '+${product.key.getQuantity()}"></p>
+                    <p th:text="'Rate(Rs) : ' + ${product.key.getRate()}"></p>
+                    <a class="buy-button" th:href="@{/test/buydetails(pid=${product.key.getPid()})}">Buy</a>
                 </div>
                 </div>
         

@@ -7,6 +7,8 @@ import com.abdz.trialspbgit.enitity.Power;
 import com.abdz.trialspbgit.enitity.User;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
+import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 
 @Repository
@@ -48,6 +50,18 @@ public class UserDAO {
     public int deleteAll(){
         int numrows = entityManager.createQuery("Delete from User", User.class).executeUpdate();
         return numrows;
+    }
+
+    public User findByWalletAccntNo(String walletaccntno) {
+        try {
+            TypedQuery<User> query = entityManager.createQuery(
+                "SELECT u FROM User u WHERE u.walletaccntno = :walletaccntno", User.class);
+            query.setParameter("walletaccntno", walletaccntno);
+            return query.getSingleResult();
+        } catch (NoResultException e) {
+            // Handle the case when no user is found with the specified walletAccntNo
+            return null;
+        }
     }
 
 }

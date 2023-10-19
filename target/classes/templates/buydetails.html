@@ -13,7 +13,7 @@ body {
 }
 
 .container {
-    max-width: 1200px;
+    max-width: 600px;
     margin: 0 auto;
     padding: 20px;
 }
@@ -54,16 +54,19 @@ body {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     padding: 20px;
     margin: 20px 0;
+    color: #1c3a58;
 }
 
 .product-details {
     font-size: 18px;
     margin-bottom: 10px;
+    color: #1c3a58;
 }
 
 .seller-details {
     font-size: 16px;
     margin-top: 20px;
+    color: #1c3a58;
 }
 
 .confirmation-button {
@@ -109,6 +112,7 @@ label {
     background-color: #fff;
     border-radius: 5px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    color: #1c3a58;
 }
 
     
@@ -124,15 +128,15 @@ label {
     <hr>
 	<div class="product-details">
     <h2>Product Details</h2>
-    Quantity: <p th:text="${product.getQuantity()}"></p>
-    Price: <p th:text="${product.getRate()}"></p>
+    <p th:text="'Quantity: '+${product.getQuantity()}"></p>
+    <p th:text="'Price: '+${product.getRate()}"></p>
     </div>
     <!-- Add more product details here -->
 
     <div class="seller-details "><h2>Seller Details</h2>
-    Name:<p th:text="${seller.getUsername()}"></p>
-    Email: <p th:text="${seller.getGmail()}"></p>
-    Description:<p th:text="${seller.getDescription()}"></p>
+    <p th:text="'Name: '+${seller.getUsername()}"></p>
+    <p th:text="'Email: '+${seller.getGmail()}"></p>
+    <p th:text="'Description: '+${seller.getDescription()}"></p>
     </div>
     </div>
     <!-- Add more seller details here -->

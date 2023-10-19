@@ -20,6 +20,7 @@ import com.abdz.trialspbgit.enitity.Product;
 import com.abdz.trialspbgit.enitity.Request;
 import com.abdz.trialspbgit.enitity.User;
 import com.abdz.trialspbgit.form.ProductForm;
+import com.abdz.trialspbgit.form.RegisterForm;
 import com.abdz.trialspbgit.form.RequestForm;
 import com.abdz.trialspbgit.service.PowerService;
 
@@ -39,26 +40,45 @@ public class PowerRestController{
         this.powerService = powerService;
     }
 
+	@GetMapping("/register")
+    public String registerPage(Model model){
+	model.addAttribute("registerform", new RegisterForm());
+	return "register";
+    }
+
+    @GetMapping("/login")
+    public String loginPage(Model model){
+	return "login";
+    }
+
     @GetMapping("/hello")
     public String hello(){
         return "Hello User!";
     }
 
     @GetMapping("/products")
-	public String generateProductListController(Model model, HttpSession session)
+	public String generateProductListController(@ModelAttribute("user") Object user, Model model, HttpSession session)
 	{
 		
 		List<Product> products = powerService.getAllProducts();
+		HashMap<Product, User> productanduser = powerService.getUserAndProduct(products);
+		System.out.println(user);
 		if(session.getAttribute("usr") == null) {
-			User usr = powerService.getUser(2);
-			session.setAttribute("usr", usr);
-			// return "login";
-		}
-		for(Product r:products)
+			if(!(user instanceof User))
 			{
-				System.out.println(r);
+				System.out.println("no user found");
+				return "login";
 			}
-		model.addAttribute("products", products);
+			User usr = (User)user;
+			session.setAttribute("usr", usr);
+			// System.out.println(usr);
+		}
+		
+		// for(Product r:products)
+		// 	{
+		// 		System.out.println(r);
+		// 	}
+		model.addAttribute("products", productanduser);
 		return "products";
 	}
 
@@ -66,9 +86,9 @@ public class PowerRestController{
 	@GetMapping("/buydetails")
 	public String buyDetailsController(@RequestParam("pid") int pid, HttpSession session, Model model) {
 		if(session.getAttribute("usr") == null) {
-			User usr = powerService.getUser(1);
-			session.setAttribute("usr", usr);
-			// return "login";
+			// User usr = powerService.getUser(1);
+			// session.setAttribute("usr", usr);
+			return "login";
 		}
 		else{
 			User usr = (User) session.getAttribute("usr");
@@ -89,9 +109,9 @@ public class PowerRestController{
 		User usr;
 		System.out.println(requestform);
 		if(session.getAttribute("usr") == null) {
-			usr = powerService.getUser(1);
-			session.setAttribute("usr", usr);
-			// return "login";
+			// usr = powerService.getUser(1);
+			// session.setAttribute("usr", usr);
+			return "login";
 		}
         else {
 			usr = (User) session.getAttribute("usr");
@@ -111,15 +131,19 @@ public class PowerRestController{
 	{
 		User usr;
 		if(session.getAttribute("usr") == null) {
-			usr = powerService.getUser(2);
-			session.setAttribute("usr", usr);
-			// return "login";
+			// usr = powerService.getUser(2);
+			// session.setAttribute("usr", usr);
+			return "login";
 		}
         else {
 			usr = (User) session.getAttribute("usr");
 		}
 		Request request = powerService.acceptRequest(requestid,usr.getUid());
 		model.addAttribute("request", request);
+		if( request != null)
+		{
+			return "requestacceptfailed";
+		}
 		return "requestaccepted";
 	}
 
@@ -128,15 +152,19 @@ public class PowerRestController{
 	{
 		User usr;
 		if(session.getAttribute("usr") == null) {
-			usr = powerService.getUser(2);
-			session.setAttribute("usr", usr);
-			// return "login";
+			// usr = powerService.getUser(2);
+			// session.setAttribute("usr", usr);
+			return "login";
 		}
         else {
 			usr = (User) session.getAttribute("usr");
 		}
 		Request request = powerService.rejectRequest(requestid);
 		model.addAttribute("request", request);
+		if( request != null)
+		{
+			return "requestrejectfailed";
+		}
 		return "requestrejected";
 	}
 
@@ -145,15 +173,19 @@ public class PowerRestController{
 	{
 		User usr;
 		if(session.getAttribute("usr") == null) {
-			usr = powerService.getUser(2);
-			session.setAttribute("usr", usr);
-			// return "login";
+			// usr = powerService.getUser(2);
+			// session.setAttribute("usr", usr);
+			return "login";
 		}
         else {
 			usr = (User) session.getAttribute("usr");
 		}
 		Request request = powerService.paymentCompleted(requestid, usr.getUid());
 		model.addAttribute("request", request);
+		if( request != null)
+		{
+			return "proposalpaymentfailed";
+		}
 		return "proposalpaid";
 	}
 
@@ -162,9 +194,9 @@ public class PowerRestController{
 		
 		User usr;
 		if(session.getAttribute("usr") == null) {
-			usr = powerService.getUser(1);
-			session.setAttribute("usr", usr);
-			// return "login";
+			// usr = powerService.getUser(1);
+			// session.setAttribute("usr", usr);
+			return "login";
 		}
         else {
 			usr = (User) session.getAttribute("usr");
@@ -186,9 +218,9 @@ public class PowerRestController{
 		User usr;
 		System.out.println(productForm);
 		if(session.getAttribute("usr") == null) {
-			usr = powerService.getUser(1);
-			session.setAttribute("usr", usr);
-			// return "login";
+			// usr = powerService.getUser(1);
+			// session.setAttribute("usr", usr);
+			return "login";
 		}
         else {
 			usr = (User) session.getAttribute("usr");
@@ -209,9 +241,9 @@ public class PowerRestController{
 		
 		User usr;
 		if(session.getAttribute("usr") == null) {
-			usr = powerService.getUser(2);
-			session.setAttribute("usr", usr);
-			// return "login";
+			// usr = powerService.getUser(2);
+			// session.setAttribute("usr", usr);
+			return "login";
 		}
 		else {
 			usr = (User) session.getAttribute("usr");
@@ -232,20 +264,41 @@ public class PowerRestController{
 		
 		User usr;
 		if(session.getAttribute("usr") == null) {
-			usr =powerService.getUser(1);
-			session.setAttribute("usr", usr);
-			// return "login";
+			// usr =powerService.getUser(1);
+			// session.setAttribute("usr", usr);
+			return "login";
 		}
 		else {
 			usr = (User) session.getAttribute("usr");
 		}
 		model.addAttribute("user", usr);
 		List<Request> sentrequests = powerService.getAllSentRequests(usr.getUid());
-		HashMap<User, Request> sentrequestsanduser = powerService.getUserAndRequest(sentrequests);
+		HashMap<User, Request> sentrequestsanduser = powerService.getUserAndProposal(sentrequests);
 		model.addAttribute("sentrequests", sentrequestsanduser);
 		
 		
 		return "proposal";
+	}
+
+	@GetMapping("/profile")
+	public String userProfile(Model model, HttpSession session) {
+		
+		User usr;
+		if(session.getAttribute("usr") == null) {
+			// usr =powerService.getUser(1);
+			// session.setAttribute("usr", usr);
+			return "login";
+		}
+		else {
+			usr = (User) session.getAttribute("usr");
+		}
+		double width = ((powerService.getPowerOnSale(usr.getUid()) * 1.0)/ (powerService.getAvailablePower(usr.getUid()) * 1.0))*100;
+            model.addAttribute("available", powerService.getAvailablePower(usr.getUid()));
+            model.addAttribute("onsale", powerService.getPowerOnSale(usr.getUid()));
+			model.addAttribute("left", powerService.getAvailablePower(usr.getUid()) - powerService.getPowerOnSale(usr.getUid()));
+            model.addAttribute("width", width);
+		model.addAttribute("user", usr);
+		return "profile";
 	}
 
 }

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>User Profile</title>
+    <style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f2f2f2;
+}
+
+.container {
+    margin: 20px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.top {
+    background-color: #333;
+    color: white;
+    padding: 10px;
+    text-align: center;
+}
+
+.content {
+    padding: 20px;
+}
+.header-nav {
+		    background: linear-gradient(to bottom, #2E4053, #34495E);
+		    padding: 15px 0;
+		    text-align: center;
+		    border-bottom: 4px solid #F39C12;
+		    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+		}
+		
+		.nav-link {
+		    color: #F39C12;
+		    text-decoration: none;
+		    font-size: 18px;
+		    margin: 0 20px;
+		    transition: color 0.3s ease;
+		}
+		
+		.nav-link:hover {
+		    color: #E74C3C;
+		}
+        .progress-bar {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    height: 30px; /* Increased height to accommodate quantity labels */
+}
+
+.progress-bar-line {
+    height: 100%;
+    position: relative; /* To position the quantity label within the bar */
+}
+
+.quantity-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.total-energy {
+    background-color: #3498db;
+}
+
+.sold-energy {
+    background-color: #e74c3c;
+}
+
+.available-energy {
+    background-color: #2ecc71;
+}
+
+.energy-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.quantity-label {
+    color: #34495e;
+    font-size: 14px;
+}
+
+.energy-label {
+    color: #34495e;
+    font-size: 14px;
+}
+.energy-container {
+    background-color: #2E4053;
+    padding: 20px;
+    border-radius: 5px;
+    color: #ffffff;
+    text-align: center;
+    margin-top: 20px;
+}
+</style>
+
+</head>
+<body>
+    <header th:insert="/header :: header">
+        <!-- <%@include file="header.jsp" %> -->
+    </header>
+    <div class="container">
+        <div class="top">
+            <h1>User Profile</h1>
+        </div>
+        <div class="content">
+            <h2>User Information</h2>
+            <p>Username: <span th:text="${user.getUsername()}"></span></p>
+            <p>Email: <span th:text="${user.getGmail()}"></span></p>
+            <p>Description: <span th:text="${user.getDescription()}"></span></p>
+            <p>Meter Id: <span th:text="${user.getMid()}"></span></p>
+            <!-- Add more user information here -->
+        </div>
+    
+    <div class="energy-container">
+    <div class="progress-bar">
+        <div class="progress-bar-line total-energy" style="width:100%;"><div class="progress-bar-line sold-energy" th:style="'width: '+ ${width} +'%;'"> 
+
+        </div></div>
+    </div>
+</div>
+<div class="energy-labels">
+    <p class="energy-label" style="color:red"> Energy Already Sold</p>
+   <p class="energy-label" style="color:blue">Total Energy Available</p>
+</div>
+<div class="quantity-labels">
+    <p class="quantity-label" style="color:red" th:text="${onsale} +'kWh'"></p>
+   <p class="quantity-label" style="color:blue" th:text="${available}+' kWh'" ></p>
+</div>
+</div>
+</body>
+</html>

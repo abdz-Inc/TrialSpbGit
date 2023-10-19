@@ -28,13 +28,10 @@
     position: relative; /* To position the quantity label within the bar */
 }
 
-.quantity-label {
-    position: absolute;
-    top: 50%;
-    float: right;
-    color: #fff;
-    font-size: 14px;
-    font-weight: bold;
+.quantity-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
 }
 
 .total-energy {
@@ -53,6 +50,11 @@
     display: flex;
     justify-content: space-between;
     margin-top: 10px;
+}
+
+.quantity-label {
+    color: #34495e;
+    font-size: 14px;
 }
 
 .energy-label {
@@ -120,6 +122,7 @@ body {
 }
 
 .container {
+    color: #2E4053;
     max-width: 600px;
     margin: 0 auto;
     padding: 20px;
@@ -165,11 +168,11 @@ label {
     </header>
     
     <div class="container">
-        <h2>Welcome,</h2> <h2 th:text="${usrname}"></h2>
+        <h2 style="color: #2E4053;" th:text="'Welcome ' + ${username}+' !'"></h2>
        
         <div class="energy-container">
     <div class="progress-bar">
-        <div class="progress-bar-line total-energy" style="width:100%;"><div class="progress-bar-line sold-energy" th:style="'width: '+ ${width} +'%;'"> <span class="quantity-label" th:text="${onsale} +'kWh'"></span></div><span class="quantity-label" th:text="${available}+' kWh'" ></span></div>
+        <div class="progress-bar-line total-energy" style="width:100%;"><div class="progress-bar-line sold-energy" th:style="'width: '+ ${width} +'%;'"> </div></div>
         
     
 </div>
@@ -178,11 +181,14 @@ label {
     <p class="energy-label" style="color:red"> Energy Already Sold</p>
    <p class="energy-label" style="color:blue">Total Energy Available</p>
 </div>
+<div class="quantity-labels">
+    <p class="quantity-label" style="color:red" th:text="${onsale} +'kWh'"></p>
+   <p class="quantity-label" style="color:blue" th:text="${available}+' kWh'" ></p>
+</div>
         
         <div class="energy-container">
             <p class="energy-info">Energy Available to Sell:</p>
             <p class="energy-value" th:text="${left}"> kWh</p>
-            <p class="energy-info">You have enough energy to power XYZ homes for a day.</p>
         </div>
     </div>
     <div class="container">
