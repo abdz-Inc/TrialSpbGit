@@ -51,9 +51,9 @@ public class PowerRestController{
 	return "login";
     }
 
-    @GetMapping("/hello")
+    @GetMapping("/")
     public String hello(){
-        return "Hello User!";
+        return "login";
     }
 
     @GetMapping("/products")
