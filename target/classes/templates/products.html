@@ -3,114 +3,139 @@
 
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <title>Product List</title>
     <style>
-    body {
+        body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
             color: #1c3a58;
             background-color: #f2f2f2;
         }
-        
-        /* Header Navigation */
-		/* Energy-Themed Header */
-		.header-nav {
-		    background: linear-gradient(to bottom, #2E4053, #34495E);
-		    padding: 15px 0;
-		    text-align: center;
-		    border-bottom: 4px solid #F39C12;
-		    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-		}
-		
-		.nav-link {
-		    color: #F39C12;
-		    text-decoration: none;
-		    font-size: 18px;
-		    margin: 0 20px;
-		    transition: color 0.3s ease;
-		}
-		
-		.nav-link:hover {
-		    color: #E74C3C;
-		}
 
+        /* Header Navigation */
+        /* Energy-Themed Header */
+        .header-nav {
+            background: linear-gradient(to bottom, #2E4053, #34495E);
+            padding: 15px 0;
+            text-align: center;
+            border-bottom: 4px solid #F39C12;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-link {
+            color: #F39C12;
+            text-decoration: none;
+            font-size: 18px;
+            margin: 0 20px;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: #E74C3C;
+        }
+
+        .container {
+            padding: auto 20px;
+            margin:auto;
+        }
 
         .product-container {
-            margin: 20px;
-            padding: 20px;
-            background-color: white;
+            flex: auto;
+            float: left;
+            margin: 10px;
+            width: 20%;
+            height: auto;
+            transition: max-height 10s ease;
             border-radius: 5px;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            background-color: white;
         }
+
         .product {
-            display: flex;
-            align-items: center;
-            border-bottom: 1px solid #ddd;
-            padding: 10px 0;
             cursor: pointer;
-            overflow: hidden;
-            max-height: 120px; 
-            transition: max-height 10s ease;
+
         }
+
         .product img {
-            max-width: 100px;
-            margin-right: 20px;
+            max-width: 100%;
+            height: 50%;
         }
+
         .product-details {
-            flex: 1;
+            float: center;
+            margin-top: 10px;
+            margin-left: 10px;
         }
+
         .buy-button {
             background-color: #F39C12;
             color: white;
             border: none;
-            padding: 5px 10px;
-            border-radius: 3px;
+            border-radius: 0px 0px 5px 5px;
             cursor: pointer;
-            float: right; /* Add this to float the button to the right */
-            margin-top: 5px;
-              display: none;
+            float: left;
+            display: none;
         }
 
         .buy-button:hover {
             background-color: #E74C3C;
         }
-        .expanded {
-		    max-height: none;
-		}
-		
-		.expanded .buy-button {
-		    display: block;
-		    text-align: center;
-		    margin-top: 10px;
-		}
-        </style>
-        <script>
+
+        .expanded {}
+
+        .expanded .buy-button {
+            width: 100%;
+            display: block;
+            height: 40%;
+            padding: 10px 0px;
+            text-align: center;
+            margin-top: 10px;
+        }
+    </style>
+    <script>
         function toggleBuyButton(product) {
             product.classList.toggle("expanded");
         }
     </script>
 </head>
+
 <body>
     <header th:insert="/header :: header">
         <!-- <%@include file="header.jsp" %> -->
     </header>
-    <div class="product-container" th:each="product: ${products}">
-        
-               <div class="product" onclick="toggleBuyButton(this)">
-               
+    <div class="container">
+
+        <div class="product-container" th:each="product: ${products}">
+
+            <div class="product" onclick="toggleBuyButton(this)">
+
                 <img th:src="@{/images/energyicon.png}" th:alt="${product.key.getPid()}">
-            <div class="product-details">
-                    <h2 th:text="${product.value.getUsername()}"></h2>
+                <div class="product-details">
+                    <h2 th:text="${product.value.getUsername()}" style="text-align: center;"></h2>
                     <p th:text="'Quantity(kW) : '+${product.key.getQuantity()}"></p>
                     <p th:text="'Rate(Rs) : ' + ${product.key.getRate()}"></p>
-                    <a class="buy-button" th:href="@{/test/buydetails(pid=${product.key.getPid()})}">Buy</a>
                 </div>
+                <div class="env-buy-button">
+                    <div class="buy-button" th:data-link="@{/test/buydetails(pid=${product.key.getPid()})}">Buy</div>
                 </div>
-        
+            </div>
         </div>
-        <!-- More product entries can be added similarly -->
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const clickableDivs = document.querySelectorAll(".buy-button");
+
+                clickableDivs.forEach(function (div) {
+                    div.addEventListener("click", function () {
+                        const link = div.getAttribute("data-link");
+                        window.location.href = link;
+                    });
+                });
+            });
+        </script>
     </div>
 </body>
+
 </html>
