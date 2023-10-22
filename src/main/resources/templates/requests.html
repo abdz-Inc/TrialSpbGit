@@ -289,7 +289,7 @@ function clearLists() {
         <div class="main-content">
             <ul   id="request-list" class="request-list" th:each="request : ${recvrequests}">
                     <h1 id="abt-trans" style="text-transform: capitalize;"></h1>
-                    <li th:class="'request '+${request.value.getStatus()}">
+                    <li th:class="'request '+${request.key.getStatus()}">
                         <div class="request-title" th:onclick="toggleMessage('${request.key.getRid()}')" 
                             th:utext="'Buyer:    '+ ${request.value.getUsername()}+  '   [<b>  '+${request.value.getWalletaccntno()}+ '  </b>  ]</br>Rate: '+${request.key.getBidrate()}+'    |    Quantity: '+${request.key.getQuantity()}+'    |    Status: '+${request.key.getStatus()}
                         +'<br/>Message : '+${request.key.getMessage()} 
