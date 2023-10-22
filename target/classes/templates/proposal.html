@@ -130,11 +130,130 @@
             margin-top: 10px;
         }
     </style>
+    <script src="https://unpkg.com/truffle@5.5.0-tezos.4/build/library.bundled.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/4.0.3/web3.min.js" integrity="sha512-2oprd2T2vSkAii+dVWi6C+uATbQ1YGmCed6b6msb9Jxi33hsXAbnhwZ9thwCq6ndidZv4P51qaq58uo9b/x4nA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script type="text/javascript" th:src="@{/script.js}"></script>
     <script>
-        function filterRequests(status) {
+       
+
+        
+function displayIt(i, prod) {
+    // Create a new list item element
+    console.log(i,prod) ;
+    const li = document.createElement('li');
+    li.classList.add('request', prod.isPaid ? 'a-paid' : prod.isCancelled ? 'a-cancelled' : 'a-pending');
+
+    // Create the request title
+    const requestTitle = document.createElement('div');
+    requestTitle.classList.add('request-title');
+    requestTitle.innerHTML = `buyer: ${prod.sender} <br>seller: ${prod.receiver}<br> ${prod.energyQuantity} x ${prod.pricePerUnit} = ${prod.energyQuantity * prod.pricePerUnit} <br/>`;
+    const postdate = document.createElement('span');
+        postdate.style.fontSize="13px";
+        postdate.style.position="absolute"
+        postdate.style.bottom="10px"
+        postdate.style.left="65%"
+        let timestamp = String(prod.timestamp)
+        // timestamp = timestamp.substring(0,timestamp.length-1);
+        postdate.innerText= formatUnixTimestamp (timestamp);
+        requestTitle.appendChild(postdate);
+    // Check conditions and create action buttons
+    if (!prod.isPaid && !prod.isCancelled) {
+        const myAddress = sessionStorage.getItem('myAddress').substring(1, sessionStorage.getItem('myAddress').length - 1);
+        if (prod.receiver !== myAddress) {
+            const payBtn = document.createElement('div');
+            payBtn.classList.add('action-button', 'accept');
+            payBtn.innerHTML = '&#10004;';
+            payBtn.onclick = function () {
+                payTransaction(i, prod.energyQuantity * prod.pricePerUnit,prod.itemId);
+            };
+            requestTitle.appendChild(payBtn);
+        }
+
+        const cancelBtn = document.createElement('div');
+        cancelBtn.classList.add('action-button', 'reject');
+        cancelBtn.innerHTML = '&#10006;';
+        cancelBtn.onclick = function () {
+            cancelTransaction(i,prod.itemId);
+        };
+        requestTitle.appendChild(cancelBtn);
+        
+    }
+
+    // Append the request title to the list item
+    li.appendChild(requestTitle);
+
+    // Append the list item to the request list
+    const reqList = document.getElementById('request-list');
+    reqList.appendChild(li);
+}
+
+        
+
+function clearLists() {
+    const lists = [
+        document.querySelectorAll('.a-paid'),
+        document.querySelectorAll('.a-cancelled'),
+        document.querySelectorAll('.a-pending')
+    ];
+
+    lists.forEach(list => {
+            for (let index = 0; index < list.length; index++) {
+                const element = list[index];
+                element.parentNode.removeChild(element);       
+                console.log(element)
+        }
+    });
+
+   
+               
+}
+                
+   async function getMyAcceptedRequest(){
+                clearLists();
+                showLoading();
+                const cnt = await getTransactionCount();                
+                for(var i=0;i<cnt;i++){
+                    const res = await getTransactionDetails(i);
+                    if(res.sender===getMyAddress()){
+                        displayIt(i,res);
+                    }
+                }   
+                hideLoading();
+                    
+            
+
+        }
+
+
+        async function payTransaction(i,p,rid){
+            try {
+                showLoading(); 
+                await paySeller(i,p);
+                hideLoading(); 
+                window.location ="/test/payproposal?requestid=" +rid;
+            } catch (error) {
+                console.log("Error occured in payment",error)
+            }
+                
+     }
+     
+     async function cancelTransaction(i,rid){
+          try {
+            showLoading(); 
+            await cancelSeller(i)
+            hideLoading(); 
+            window.location ="/test/rejectrequest?requestid=" +rid;
+          } catch (error) {
+            console.log("error in cancelling payment .");
+          }
+     }
+
+     function filterRequests(status) {
+            document.getElementById('abt-trans').innerText = status;
             var requests = document.querySelectorAll(".request");
             for (var i = 0; i < requests.length; i++) {
-                var request = requests[i];
+                var request = requests[i];            
+                console.log(status, request.classList);
                 if (status === "all" || request.classList.contains(status)) {
                     request.style.display = "flex";
                 } else {
@@ -146,11 +265,11 @@
             var details = document.getElementById("details-" + requestId);
             details.style.display = details.style.display === "none" ? "block" : "none";
         }
-        function acceptRequestNew(requestId, walletBuyer, walletUser, rate, quantity) {
+        function acceptRequest(requestId, wallet, rate, quantity) {
             // Implement accept request functionality here
             
             
-            alert("Accepted request with ID: " + requestId+" "+walletBuyer+" "+walletUser+" "+rate+" "+quantity);
+            alert("Accepted request with ID: " + requestId);
         }
     </script>
 </head>
@@ -161,10 +280,15 @@
     <div class="container">
         <div class="sidebar">
             <h2>Filter Proposals</h2>
-            <button class="filter-button" onclick="filterRequests('pending')">pending Requests</button>
-            <button class="filter-button" onclick="filterRequests('accepted')">Accepted Requests</button>
-            <button class="filter-button" onclick="filterRequests('rejected')">Rejected Requests</button>
-            <button class="filter-button" onclick="filterRequests('all')">Show All Requests</button>
+            <button class="filter-button" onclick="filterRequests('pending')">pending Proposals</button>
+            <button class="filter-button" >Accepted Propasals</button>
+            <ul style="list-style: square; margin: 0;">
+                <li><button class="filter-button" onclick="(async()=>{await getMyAcceptedRequest() ; filterRequests('a-paid') ; })()" style="width: 120px; border: 1px solid white ;">Paid </button></li>
+                <li><button class="filter-button" onclick="(async()=>{await getMyAcceptedRequest() ; filterRequests('a-cancelled') ; })()" style="width: 120px;border: 1px solid white ;">Cancelled </button></li>
+                <li><button class="filter-button" onclick="(async()=>{await getMyAcceptedRequest() ; filterRequests('a-pending') ; })()" style="width: 120px;border: 1px solid white ;">Payment Pending</button></li>
+            </ul>
+            <button class="filter-button" onclick="filterRequests('rejected')">Rejected Proposals</button>
+            <button class="filter-button" onclick="filterRequests('all')">Show All Proposals</button>
         </div>
         <div class="main-content">
             <ul class="request-list" th:each="request : ${sentrequests}">
@@ -176,7 +300,9 @@
                             Rate: '+${request.value.getBidrate()}+'    |    Quantity: '+${request.value.getQuantity()}+'    |    Status: '+${request.value.getStatus()}">
                         </div>
                         <div th:if="${request.value.getStatus()=='accepted'}" class="request-actions">
-                            <div class="action-button accept" th:data-buyerwallet="${request.key.getWalletaccntno()}" th:data-userwallet="${user.getWalletaccntno()}" th:onclick="|acceptRequestNew('${request.value.getRid()}',this.getAttribute('data-buyerwallet'), this.getAttribute('data-userwallet'),'${request.value.getBidrate()}','${request.value.getQuantity()}')|"  ><a th:href="@{/test/payproposal(requestid=${request.value.getRid()})}">&#10004;</a></div>
+                            <div class="action-button accept" th:onclick="acceptRequest('${request.getRid()}')" >
+                                
+                            </div>  
                         </div>
                         <div class="request-message" th:id="'message-'+${request.value.getRid()}"
                             th:text="${request.value.getMessage()}">
