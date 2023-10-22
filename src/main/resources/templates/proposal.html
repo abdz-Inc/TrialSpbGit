@@ -291,21 +291,23 @@ function clearLists() {
             <button class="filter-button" onclick="filterRequests('all')">Show All Proposals</button>
         </div>
         <div class="main-content">
-            <ul class="request-list" th:each="request : ${sentrequests}">
-                 
-                    <li th:class="'request '+${request.value.getStatus()}">
-                        <div class="request-title" th:onclick="toggleMessage('${request.value.getRid()}')" 
-                            th:text="'Seller: '+${request.key.getUsername()}+'
-                            
-                            Rate: '+${request.value.getBidrate()}+'    |    Quantity: '+${request.value.getQuantity()}+'    |    Status: '+${request.value.getStatus()}">
+            <ul  id="request-list"class="request-list" th:each="request : ${sentrequests}">
+                    <h1 id="abt-trans" style="text-transform: capitalize;"></h1>
+                    <li th:class="'request '+${request.key.getStatus()}">
+                        <div class="request-title" th:onclick="toggleMessage('${request.key.getRid()}')" 
+                            th:utext="'Seller:    '+ ${request.key.getSellerid()}+  '   [<b>  '+${request.value.getWalletaccntno()}+ '  </b>  ]</br>Rate: '+${request.key.getBidrate()}+'    |    Quantity: '+${request.key.getQuantity()}+'    |    Status: '+${request.key.getStatus()}
+                        +'<br/>Message : '+${request.key.getMessage()} 
+                        ">
                         </div>
-                        <div th:if="${request.value.getStatus()=='accepted'}" class="request-actions">
-                            <div class="action-button accept" th:onclick="acceptRequest('${request.getRid()}')" >
+                        <span th:utext="${request.key.getPostdatetime()}" style="font-size: 13px; position: absolute;bottom: 10px; left: 65%;"></span>
+                        
+                        <div th:if="${request.key.getStatus()=='accepted'}" class="request-actions">
+                            <div class="action-button accept" th:onclick="acceptRequest('${request.key.getRid()}')" >
                                 
-                            </div>  
+                            </div>                                
                         </div>
-                        <div class="request-message" th:id="'message-'+${request.value.getRid()}"
-                            th:text="${request.value.getMessage()}">
+                        <div class="request-message" th:id="'message-'+${request.key.getRid()}"
+                            th:utext="${request.key.getMessage()}">
                         </div>
                     </li>
             </ul>

@@ -77,24 +77,24 @@ public class PowerService {
         return requestDAO.findAllSentRequest(id);
     }
 
-    public HashMap<User,Request> getUserAndRequest(List<Request> requests)
+    public HashMap<Request, User> getUserAndRequest(List<Request> requests)
     {
         
-        HashMap<User, Request> mp = new HashMap<User, Request>();
+        HashMap<Request, User> mp = new HashMap<Request, User>();
         for(Request request : requests)
         {
-            mp.put(getUser(request.getBuyerid()), request);
+            mp.put(request,getUser(request.getBuyerid()));
         }
         return mp;
     }
 
-    public HashMap<User,Request> getUserAndProposal(List<Request> requests)
+    public HashMap<Request, User> getUserAndProposal(List<Request> requests)
     {
         
-        HashMap<User, Request> mp = new HashMap<User, Request>();
+        HashMap<Request,User> mp = new HashMap<Request, User>();
         for(Request request : requests)
         {
-            mp.put(getUser(request.getSellerid()), request);
+            mp.put(request, getUser(request.getSellerid()));
         }
         return mp;
     }

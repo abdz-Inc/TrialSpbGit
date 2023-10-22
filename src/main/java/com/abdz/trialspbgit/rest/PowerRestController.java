@@ -250,7 +250,7 @@ public class PowerRestController{
 		}
 		model.addAttribute("user", usr);
 		List<Request> recvrequests = powerService.getAllRecvRequests(usr.getUid());
-		HashMap<User, Request> recvrequestsanduser = powerService.getUserAndRequest(recvrequests);
+		HashMap<Request,User> recvrequestsanduser = powerService.getUserAndRequest(recvrequests);
 		
 		model.addAttribute("recvrequests", recvrequestsanduser);
 		
@@ -273,7 +273,7 @@ public class PowerRestController{
 		}
 		model.addAttribute("user", usr);
 		List<Request> sentrequests = powerService.getAllSentRequests(usr.getUid());
-		HashMap<User, Request> sentrequestsanduser = powerService.getUserAndProposal(sentrequests);
+		HashMap<Request, User> sentrequestsanduser = powerService.getUserAndProposal(sentrequests);
 		model.addAttribute("sentrequests", sentrequestsanduser);
 		
 		
