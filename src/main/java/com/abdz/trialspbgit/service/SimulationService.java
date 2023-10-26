@@ -55,12 +55,12 @@ public class SimulationService {
 
     }
 
-    public HashMap<Integer, Meter> getAllAvailablePowerInMeter(List<Meter> meters)
+    public HashMap<Meter, Integer> getAllAvailablePowerInMeter(List<Meter> meters)
     {
-        HashMap<Integer, Meter> mp = new HashMap<Integer, Meter>();
+        HashMap<Meter, Integer> mp = new HashMap<Meter, Integer>();
         for(Meter m : meters)
         {
-            mp.put(getAvailablePowerInMeter(m.getMid()), m);
+            mp.put(m, getAvailablePowerInMeter(m.getMid()));
         }
         return mp;
     } 

@@ -2,7 +2,7 @@ package com.abdz.trialspbgit.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -73,5 +73,13 @@ public class AuthController {
           redirectAttributes.addFlashAttribute("user", user);
 	     return "redirect:/test/products";
      }
+
+     @GetMapping("/logout")
+    public String logout(HttpSession session){
+        session.removeAttribute("usr");
+        return "logout";
+       
+     }
+
 
 }

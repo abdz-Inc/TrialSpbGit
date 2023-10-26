@@ -295,7 +295,7 @@ function clearLists() {
                     <h1 id="abt-trans" style="text-transform: capitalize;"></h1>
                     <li th:class="'request '+${request.key.getStatus()}">
                         <div class="request-title" th:onclick="toggleMessage('${request.key.getRid()}')" 
-                            th:utext="'Seller:    '+ ${request.key.getSellerid()}+  '   [<b>  '+${request.value.getWalletaccntno()}+ '  </b>  ]</br>Rate: '+${request.key.getBidrate()}+'    |    Quantity: '+${request.key.getQuantity()}+'    |    Status: '+${request.key.getStatus()}
+                            th:utext="'Seller:    '+ ${request.value.getUsername()}+  '   [<b>  '+${request.value.getWalletaccntno()}+ '  </b>  ]</br>Rate: '+${request.key.getBidrate()}+'    |    Quantity: '+${request.key.getQuantity()}+'    |    Status: '+${request.key.getStatus()}
                         +'<br/>Message : '+${request.key.getMessage()} 
                         ">
                         </div>
@@ -303,7 +303,7 @@ function clearLists() {
                         
                         <div th:if="${request.key.getStatus()=='accepted'}" class="request-actions">
                             <div class="action-button accept" th:onclick="acceptRequest('${request.key.getRid()}')" >
-                                
+                                <a th:href="@{/test/payproposal(requestid=${request.key.getRid()})}">&#10004;</a>
                             </div>                                
                         </div>
                         <div class="request-message" th:id="'message-'+${request.key.getRid()}"

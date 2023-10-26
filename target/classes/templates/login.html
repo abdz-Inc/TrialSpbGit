@@ -3,6 +3,9 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Login </title>
+    <script src="https://unpkg.com/truffle@5.5.0-tezos.4/build/library.bundled.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/web3/4.0.3/web3.min.js" integrity="sha512-2oprd2T2vSkAii+dVWi6C+uATbQ1YGmCed6b6msb9Jxi33hsXAbnhwZ9thwCq6ndidZv4P51qaq58uo9b/x4nA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script type="text/javascript" th:src="@{/script.js}"></script>
     <style>
     /* Global styles */
 body {
@@ -125,7 +128,7 @@ label {
     	 
         <div class="form-group">
                 <label for="walletaccntno" >walletaccntno (kWh)</label>
-                <input name="walletaccntno" id="walletaccntno" type="text" class="form-control" required="true"/>
+                <input name="walletaccntno" id="walletaccntno" type="text" class="form-control" required="true" readonly />
        </div>
         <button class="confirmation-button" type="submit">Login</button>
         <a class="confirmation-button" th:href="@{/test/register}">Register</a>
@@ -135,9 +138,7 @@ label {
 
 </body>
 
-<script src="https://unpkg.com/truffle@5.5.0-tezos.4/build/library.bundled.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/web3/4.0.3/web3.min.js" integrity="sha512-2oprd2T2vSkAii+dVWi6C+uATbQ1YGmCed6b6msb9Jxi33hsXAbnhwZ9thwCq6ndidZv4P51qaq58uo9b/x4nA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script type="text/javascript" th:src="@{/script.js}"></script>
+
 <script type="text/javascript">
 	document.addEventListener("DOMContentLoaded", async function(event) {
 			const myAddress = sessionStorage.getItem('myAddress');

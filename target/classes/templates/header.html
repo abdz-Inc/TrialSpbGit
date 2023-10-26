@@ -10,6 +10,31 @@
     <a th:href="@{/test/showrequests}" class="nav-link">Requests</a> |
     <a th:href="@{/test/showbids}" class="nav-link">Proposals</a> |
     <a th:href="@{/test/profile}" class="nav-link">Profile</a>
+
+    <a th:href="@{/test/register}" class="nav-link" id="reg">Register |</a>
+        <a th:href="@{/test/login}" class="nav-link" id="log-in">Login |</a>
+        <a th:href="@{/auth/logout}" class="nav-link" id="log-out">Log-out</a>
+       
+       
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+       
+        if (sessionStorage.getItem('myAddress')) {                
+                    document.getElementById('reg').style.display='none'
+                    document.getElementById('log-in').style.display='none'
+                    document.getElementById('log-out').style.display='flex-end'
+                }else{
+                    document.getElementById('reg').style.display='flex-end'
+                    document.getElementById('log-in').style.display='flex-end'
+                    document.getElementById('log-out').style.display='none'
+        }
+    });
+
+
+    </script>
+</nav>
+</body>
+</html>
 </nav>
 </body>
 </html>

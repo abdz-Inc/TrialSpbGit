@@ -291,19 +291,20 @@ function clearLists() {
                     <h1 id="abt-trans" style="text-transform: capitalize;"></h1>
                     <li th:class="'request '+${request.key.getStatus()}">
                         <div class="request-title" th:onclick="toggleMessage('${request.key.getRid()}')" 
-                            th:utext="'Buyer:    '+ ${request.value.getUsername()}+  '   [<b>  '+${request.value.getWalletaccntno()}+ '  </b>  ]</br>Rate: '+${request.key.getBidrate()}+'    |    Quantity: '+${request.key.getQuantity()}+'    |    Status: '+${request.key.getStatus()}
+                            th:utext="'Buyer:    '+ ${request.value.getUsername()}+' '+ ${request.key.getRid()}+  '   [<b>  '+${request.value.getWalletaccntno()}+ '  </b>  ]</br>Rate: '+${request.key.getBidrate()}+'    |    Quantity: '+${request.key.getQuantity()}+'    |    Status: '+${request.key.getStatus()}
                         +'<br/>Message : '+${request.key.getMessage()} 
                         ">
                     </div>
                     <span th:utext="${request.key.getPostdatetime()}" style="font-size: 13px; position: absolute;bottom: 10px; left: 65%;"></span>
                     
                     <div class="request-actions" th:if="${request.key.getStatus()!='paid'}">
-                        <div th:if="${request.key.getStatus()!='accepted'}" class="action-button accept" 
+                        
+                        <div th:if="${request.key.getStatus()=='pending'}" class="action-button accept" 
                         th:onclick='acceptRequest([[${request.value.getWalletaccntno()}]],[[${request.key.getQuantity()}]],[[${request.key.getBidrate()}]],[[${request.key.getRid()}]])'>
-                        &#10004;
-                        <!-- <a th:href="@{/test/acceptrequest(requestid=${request.getRid()})}"></a> -->
+                        
+                        <a th:href="@{/test/acceptrequest(requestid=${request.key.getRid()})}">&#10004;</a>
                     </div>
-                    <div class="action-button reject" th:onclick="rejectRequest('${request.key.getRid()}')" >
+                    <div th:if="${request.key.getStatus()=='pending'}" class="action-button reject" th:onclick="rejectRequest('${request.key.getRid()}')" >
                         <a th:href="@{/test/rejectrequest(requestid=${request.key.getRid()})}">&#10006;</a>
                     </div>
                 </div>

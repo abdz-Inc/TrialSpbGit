@@ -35,7 +35,7 @@ public class SimulationController {
     {
         List<Meter> smartmeters = simulationService.getAllMeters();
 
-        HashMap<Integer, Meter> smartmeterandpower = simulationService.getAllAvailablePowerInMeter(smartmeters);
+        HashMap<Meter, Integer> smartmeterandpower = simulationService.getAllAvailablePowerInMeter(smartmeters);
 
         model.addAttribute("powerform", new PowerForm());
         model.addAttribute("smartmeters", smartmeterandpower);

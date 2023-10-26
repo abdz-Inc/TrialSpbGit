@@ -144,25 +144,25 @@
     </header>
     <div class="product-container" th:each="smartmeter: ${smartmeters}">
         <div class="product">   
-            <img th:src="@{/images/prosumer.png}" th:alt="${smartmeter.value.getMid()}">
+            <img th:src="@{/images/prosumer.png}" th:alt="${smartmeter.key.getMid()}">
             
             <div class="product-details" >
-                    <h2 th:text="${smartmeter.value.getMid()}"></h2>
-                    <p th:text="'Capacity : '+${smartmeter.value.getCapacity()}"></p>
-                    <p th:text="${smartmeter.value.getName()}+' | '+${smartmeter.value.getAddress()}"></p>
+                    <h2 th:text="${smartmeter.key.getMid()}"></h2>
+                    <p th:text="'Capacity : '+${smartmeter.key.getCapacity()}"></p>
+                    <p th:text="${smartmeter.key.getName()}+' | '+${smartmeter.key.getAddress()}"></p>
             </div>
             <button class="expand-button">Generate/Consume Energy</button>
             <div class="container" >
                 <form method="post" th:object="${powerform}" th:action="@{/simulate/addpower}">
-                    <input name="mid" type="number"  th:value="${smartmeter.value.getMid()}"hidden/>
+                    <input name="mid" type="number"  th:value="${smartmeter.key.getMid()}"hidden/>
                     <input name="mode" type="text" value="generated" hidden/>
                     <input type="number" id="quantity" name="quantity" th:field="*{quantity}" min=0 >
                 <button type="submit" class="buy-button">Generate Power</button>
                 </form>
                 <form  method="post" th:object="${powerform}" th:action="@{/simulate/addpower}">
-                    <input name="mid" type="number" th:value="${smartmeter.value.getMid()}" hidden/>
+                    <input name="mid" type="number" th:value="${smartmeter.key.getMid()}" hidden/>
                     <input name="mode" type="text" value="consumed"  hidden/>
-                    <input type="number" id="quantity" name="quantity" th:field="*{quantity}" min=0 th:max="${smartmeter.key}" >
+                    <input type="number" id="quantity" name="quantity" th:field="*{quantity}" min=0 th:max="${smartmeter.value}" >
                 <button type="submit" class="buy-button">Consume Power</button>
                 </form>
             </div>

@@ -142,9 +142,9 @@ public class PowerRestController{
 		model.addAttribute("request", request);
 		if( request != null)
 		{
-			return "requestacceptfailed";
+			return "requestaccepted";
 		}
-		return "requestaccepted";
+		return "requestacceptfailed";
 	}
 
 	@GetMapping("/rejectrequest")
@@ -163,9 +163,9 @@ public class PowerRestController{
 		model.addAttribute("request", request);
 		if( request != null)
 		{
-			return "requestrejectfailed";
+			return "requestrejected";
 		}
-		return "requestrejected";
+		return "requestrejectfailed";
 	}
 
 	@GetMapping("/payproposal")
@@ -184,9 +184,9 @@ public class PowerRestController{
 		model.addAttribute("request", request);
 		if( request != null)
 		{
-			return "proposalpaymentfailed";
+			return "proposalpaid";
 		}
-		return "proposalpaid";
+		return "proposalpaymentfailed";
 	}
 
 	@GetMapping("/createproduct")
