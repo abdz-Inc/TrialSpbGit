@@ -3,14 +3,10 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Login </title>
-    <script src="https://unpkg.com/truffle@5.5.0-tezos.4/build/library.bundled.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/web3/4.0.3/web3.min.js" integrity="sha512-2oprd2T2vSkAii+dVWi6C+uATbQ1YGmCed6b6msb9Jxi33hsXAbnhwZ9thwCq6ndidZv4P51qaq58uo9b/x4nA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script type="text/javascript" th:src="@{/script.js}"></script>
     <style>
     /* Global styles */
 body {
     font-family: Arial, sans-serif;
-    color: #1c3a58;
     background-color: #f4f4f4;
     margin: 0;
     padding: 0;
@@ -71,7 +67,7 @@ body {
 }
 
 .confirmation-button {
-    background-color: #F39C12;
+    background-color: #2ecc71;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -81,7 +77,7 @@ body {
 }
 
 .confirmation-button:hover {
-    background-color: #E74C3C;
+    background-color: #27ae60;
 }
 
 /* Footer styles */
@@ -128,17 +124,19 @@ label {
     	 
         <div class="form-group">
                 <label for="walletaccntno" >walletaccntno (kWh)</label>
-                <input name="walletaccntno" id="walletaccntno" type="text" class="form-control" required="true" readonly />
+                <input name="walletaccntno" id="walletaccntno" type="text" class="form-control" required="true" readonly/>
+                <button class="confirmation-button" type="button" onclick="location.reload()">&#x21bb;</button>
        </div>
         <button class="confirmation-button" type="submit">Login</button>
-        <a class="confirmation-button" th:href="@{/test/register}">Register</a>
     </form>
     </div>
 </div>
 
 </body>
 
-
+<script src="https://unpkg.com/truffle@5.5.0-tezos.4/build/library.bundled.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/web3/4.0.3/web3.min.js" integrity="sha512-2oprd2T2vSkAii+dVWi6C+uATbQ1YGmCed6b6msb9Jxi33hsXAbnhwZ9thwCq6ndidZv4P51qaq58uo9b/x4nA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script type="text/javascript" th:src="@{/script.js}"></script>
 <script type="text/javascript">
 	document.addEventListener("DOMContentLoaded", async function(event) {
 			const myAddress = sessionStorage.getItem('myAddress');

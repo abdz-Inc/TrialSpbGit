@@ -181,7 +181,7 @@ async function getTransactionCount() {
     const myacc = await web3.eth.getAccounts();
     const userAddress = myacc[0]
     const cnt =   await contract.methods.getTransactionCount().call({from:userAddress});
-    
+    console.log("count",cnt);
     return cnt;
 }
 
@@ -278,12 +278,12 @@ function getMyAddress(){
 
 
 function showLoading() {
-//    const loadingIndicator = document.getElementById('loader');
-//    loadingIndicator.style.display = 'block';
+   const loadingIndicator = document.getElementById('loader');
+   loadingIndicator.style.display = 'block';
 }
 
 // Function to hide the loading indicator
 function hideLoading() {
-//    const loadingIndicator = document.getElementById('loader');
-//    loadingIndicator.style.display = 'none';
+   const loadingIndicator = document.getElementById('loader');
+   loadingIndicator.style.display = 'none';
 }

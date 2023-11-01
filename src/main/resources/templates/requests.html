@@ -263,9 +263,9 @@ function clearLists() {
                 console.error('Error:', error);
             }
         }
-        function rejectRequest(requestId) {
-            // Implement reject request functionality here
-            alert("Rejected request with ID: " + requestId);
+        function rejectRequest(rid) {
+            alert("Rejected request with ID: " + rid);
+            window.location = '/test/rejectrequest?requestid=' + rid;
         }
     </script>
 </head>
@@ -273,15 +273,19 @@ function clearLists() {
 	<header th:insert="/header :: header">
         <!-- <%@include file="header.jsp" %> -->
     </header>
+    <div id="loader" style="display: none;">  <div th:replace="loader :: loader"></div></div>
     <div class="container">
         <div class="sidebar">
             <h2>Filter Requests</h2>
             <button class="filter-button" onclick="filterRequests('pending')">Pending Requests</button>
             <button class="filter-button">Accepted Requests</button>
             <ul style="list-style: square; margin: 0;">
-                <li><button class="filter-button" onclick="(async()=>{await getMyAcceptedRequest() ; filterRequests('a-paid') ; })()" style="width: 120px; border: 1px solid white ;">Paid </button></li>
+                <li><button class="filter-button" onclick="(()=>{ filterRequests('paid') ; })()" style="width: 120px; border: 1px solid white ;">Paid </button></li>
+                <li><button class="filter-button" onclick="(()=>{ filterRequests('cancelled') ; })()" style="width: 120px;border: 1px solid white ;">Cancelled </button></li>
+                <li><button class="filter-button" onclick="(()=>{ filterRequests('accepted') ; })()" style="width: 120px;border: 1px solid white ;">Payment Pending</button></li>
+                <!-- <li><button class="filter-button" onclick="(async()=>{await getMyAcceptedRequest() ; filterRequests('a-paid') ; })()" style="width: 120px; border: 1px solid white ;">Paid </button></li>
                 <li><button class="filter-button" onclick="(async()=>{await getMyAcceptedRequest() ; filterRequests('a-cancelled') ; })()" style="width: 120px;border: 1px solid white ;">Cancelled </button></li>
-                <li><button class="filter-button" onclick="(async()=>{await getMyAcceptedRequest() ; filterRequests('a-pending') ; })()" style="width: 120px;border: 1px solid white ;">Payment Pending</button></li>
+                <li><button class="filter-button" onclick="(async()=>{await getMyAcceptedRequest() ; filterRequests('a-pending') ; })()" style="width: 120px;border: 1px solid white ;">Payment Pending</button></li> -->
             </ul>
             <button class="filter-button" onclick="filterRequests('rejected')">Rejected Requests</button>
             <button class="filter-button" onclick="filterRequests('all')">Show All Requests</button>
@@ -301,11 +305,12 @@ function clearLists() {
                         
                         <div th:if="${request.key.getStatus()=='pending'}" class="action-button accept" 
                         th:onclick='acceptRequest([[${request.value.getWalletaccntno()}]],[[${request.key.getQuantity()}]],[[${request.key.getBidrate()}]],[[${request.key.getRid()}]])'>
-                        
-                        <a th:href="@{/test/acceptrequest(requestid=${request.key.getRid()})}">&#10004;</a>
+                        &#10004;
+                        <!-- <a th:href="@{/test/acceptrequest(requestid=${request.key.getRid()})}">&#10004;</a> -->
                     </div>
                     <div th:if="${request.key.getStatus()=='pending'}" class="action-button reject" th:onclick="rejectRequest('${request.key.getRid()}')" >
-                        <a th:href="@{/test/rejectrequest(requestid=${request.key.getRid()})}">&#10006;</a>
+                        &#10006;
+                        <!-- <a th:href="@{/test/rejectrequest(requestid=${request.key.getRid()})}">&#10006;</a> -->
                     </div>
                 </div>
                         <div class="request-message" th:id="'message-'+${request.key.getRid()}"

@@ -149,8 +149,9 @@ public class PowerService {
         int sold = getPowerMode(uid, "sold");
         int consumed = getPowerMode(uid, "consumed");
         int purchased = getPowerMode(uid, "purchased");
+        int refund = getPowerMode(uid, "refund");
 
-        return (generated + purchased) - (sold + consumed);
+        return (generated + purchased+refund) - (sold + consumed);
 
     }
 
@@ -248,6 +249,22 @@ public class PowerService {
         powerDAO.save(power);
         return request;
     }
+
+    public Request cancelPayment(int requestid)
+    {
+        Request request = requestDAO.findById(requestid);
+        User user = getUser(request.getSellerid());
+        request.setStatus("cancelled");
+        requestDAO.update(request);
+        Power power = new Power(user.getMid(), "refund", request.getQuantity());
+        powerDAO.save(power);
+        
+        Product product = getProduct(request.getPid());
+        product.setQuantity(product.getQuantity() +request.getQuantity());
+        productDAO.update(product);
+        return request;
+    }
+
 
     
 

@@ -106,6 +106,7 @@
     <header th:insert="/header :: header">
         <!-- <%@include file="header.jsp" %> -->
     </header>
+    <div id="loader" style="display: none;">  <div th:replace="loader :: loader"></div></div>
     <div class="container">
 
         <div class="product-container" th:each="product: ${products}">

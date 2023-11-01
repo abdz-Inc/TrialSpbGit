@@ -224,6 +224,29 @@ function clearLists() {
 
         }
 
+        async function getMyAcceptedRequestAlone(rid, quantity,rate,pay){
+                clearLists();
+                showLoading();
+                const cnt = await getTransactionCount();                
+                for(var i=0;i<cnt;i++){
+                    const res = await getTransactionDetails(i);
+                    
+                    if(parseInt(res.itemId) == rid){
+                        // displayIt(i,res);
+                        if (pay )
+                          await   payTransaction(i,quantity * rate,rid);
+                        else 
+                        await  cancelTransaction(i,rid);
+
+                        break;
+                    }
+                }   
+                hideLoading();
+                    
+            
+
+        }
+
 
         async function payTransaction(i,p,rid){
             try {
@@ -242,7 +265,7 @@ function clearLists() {
             showLoading(); 
             await cancelSeller(i)
             hideLoading(); 
-            window.location ="/test/rejectrequest?requestid=" +rid;
+            window.location ="/test/cancelproposal?requestid=" +rid;
           } catch (error) {
             console.log("error in cancelling payment .");
           }
@@ -265,11 +288,14 @@ function clearLists() {
             var details = document.getElementById("details-" + requestId);
             details.style.display = details.style.display === "none" ? "block" : "none";
         }
-        function acceptRequest(requestId, wallet, rate, quantity) {
-            // Implement accept request functionality here
-            
-            
-            alert("Accepted request with ID: " + requestId);
+        async function  acceptRequest(buyer, quantity,rate,rid ){
+            await getMyAcceptedRequestAlone(rid,quantity,rate,true);
+
+        }
+
+        async function  rejectRequest(buyer, quantity,rate,rid ){
+            await getMyAcceptedRequestAlone(rid,quantity,rate,false);
+
         }
     </script>
 </head>
@@ -277,15 +303,19 @@ function clearLists() {
 	<header th:insert="/header :: header">
         <!-- <%@include file="header.jsp" %> -->
     </header>
+    <div id="loader" style="display: none;">  <div th:replace="loader :: loader"></div></div>
     <div class="container">
         <div class="sidebar">
             <h2>Filter Proposals</h2>
             <button class="filter-button" onclick="filterRequests('pending')">pending Proposals</button>
             <button class="filter-button" >Accepted Propasals</button>
             <ul style="list-style: square; margin: 0;">
-                <li><button class="filter-button" onclick="(async()=>{await getMyAcceptedRequest() ; filterRequests('a-paid') ; })()" style="width: 120px; border: 1px solid white ;">Paid </button></li>
+                <!-- <li><button class="filter-button" onclick="(async()=>{await getMyAcceptedRequest() ; filterRequests('a-paid') ; })()" style="width: 120px; border: 1px solid white ;">Paid </button></li>
                 <li><button class="filter-button" onclick="(async()=>{await getMyAcceptedRequest() ; filterRequests('a-cancelled') ; })()" style="width: 120px;border: 1px solid white ;">Cancelled </button></li>
-                <li><button class="filter-button" onclick="(async()=>{await getMyAcceptedRequest() ; filterRequests('a-pending') ; })()" style="width: 120px;border: 1px solid white ;">Payment Pending</button></li>
+                <li><button class="filter-button" onclick="(async()=>{await getMyAcceptedRequest() ; filterRequests('a-pending') ; })()" style="width: 120px;border: 1px solid white ;">Payment Pending</button></li> -->
+                <li><button class="filter-button" onclick="(()=>{ filterRequests('paid') ; })()" style="width: 120px; border: 1px solid white ;">Paid </button></li>
+                <li><button class="filter-button" onclick="(()=>{ filterRequests('cancelled') ; })()" style="width: 120px;border: 1px solid white ;">Cancelled </button></li>
+                <li><button class="filter-button" onclick="(()=>{ filterRequests('accepted') ; })()" style="width: 120px;border: 1px solid white ;">Payment Pending</button></li>
             </ul>
             <button class="filter-button" onclick="filterRequests('rejected')">Rejected Proposals</button>
             <button class="filter-button" onclick="filterRequests('all')">Show All Proposals</button>
@@ -295,16 +325,23 @@ function clearLists() {
                     <h1 id="abt-trans" style="text-transform: capitalize;"></h1>
                     <li th:class="'request '+${request.key.getStatus()}">
                         <div class="request-title" th:onclick="toggleMessage('${request.key.getRid()}')" 
-                            th:utext="'Seller:    '+ ${request.value.getUsername()}+  '   [<b>  '+${request.value.getWalletaccntno()}+ '  </b>  ]</br>Rate: '+${request.key.getBidrate()}+'    |    Quantity: '+${request.key.getQuantity()}+'    |    Status: '+${request.key.getStatus()}
-                        +'<br/>Message : '+${request.key.getMessage()} 
-                        ">
+                            th:utext="'Seller:    '+ ${request.value.getUsername()}+ '</br>Rate: '+${request.key.getBidrate()}+'    |    Quantity: '+${request.key.getQuantity()}+'    |    Status: '+${request.key.getStatus()}
+                            +'<br/>Message : '+${request.key.getMessage()} 
+                            ">
+                            <!-- th:utext="'Seller:    '+ ${request.value.getUsername()}+  '   [<b>  '+${request.value.getWalletaccntno()}+ '  </b>  ]</br>Rate: '+${request.key.getBidrate()}+'    |    Quantity: '+${request.key.getQuantity()}+'    |    Status: '+${request.key.getStatus()} -->
                         </div>
                         <span th:utext="${request.key.getPostdatetime()}" style="font-size: 13px; position: absolute;bottom: 10px; left: 65%;"></span>
                         
                         <div th:if="${request.key.getStatus()=='accepted'}" class="request-actions">
-                            <div class="action-button accept" th:onclick="acceptRequest('${request.key.getRid()}')" >
-                                <a th:href="@{/test/payproposal(requestid=${request.key.getRid()})}">&#10004;</a>
+                            <div class="action-button accept" th:onclick="acceptRequest([[${request.value.getWalletaccntno()}]],[[${request.key.getQuantity()}]],[[${request.key.getBidrate()}]],[[${request.key.getRid()}]])" >
+                                &#10004;
+                                <!-- <a th:href="@{/test/payproposal(requestid=${request.key.getRid()})}">&#10004;</a> -->
                             </div>                                
+                            <div th:if="${request.key.getStatus()=='accepted'}" class="action-button reject" 
+                                                                th:onclick="rejectRequest([[${request.value.getWalletaccntno()}]],[[${request.key.getQuantity()}]],[[${request.key.getBidrate()}]],[[${request.key.getRid()}]])" >
+                                &#10006;
+                            </div>                             
+
                         </div>
                         <div class="request-message" th:id="'message-'+${request.key.getRid()}"
                             th:utext="${request.key.getMessage()}">

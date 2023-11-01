@@ -189,6 +189,31 @@ public class PowerRestController{
 		return "proposalpaymentfailed";
 	}
 
+	@GetMapping("/cancelproposal")
+	public String cancelProposal(@RequestParam("requestid") int requestid, HttpSession session, Model model)
+	{
+		User usr;
+		if(session.getAttribute("usr") == null) {
+			// usr = powerService.getUser(2);
+			// session.setAttribute("usr", usr);
+			return "login";
+		}
+        else {
+			usr = (User) session.getAttribute("usr");
+		}
+		Request request = powerService.cancelPayment(requestid);
+
+		model.addAttribute("request", request);
+		if( request != null)
+		{
+			return "proposalcancelled";
+		}
+		return "proposalcancelfailed";
+	}
+
+
+
+
 	@GetMapping("/createproduct")
 	public String createProductController( HttpSession session, Model model) {
 		
