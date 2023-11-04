@@ -60,20 +60,20 @@ public class PowerRestController{
 	public String generateProductListController(@ModelAttribute("user") Object user, Model model, HttpSession session)
 	{
 		
-		List<Product> products = powerService.getAllProducts();
-		HashMap<Product, User> productanduser = powerService.getUserAndProduct(products);
 		System.out.println(user);
-		if(session.getAttribute("usr") == null) {
+		User usr = (User)session.getAttribute("usr");
+		if(usr == null) {
 			if(!(user instanceof User))
 			{
 				System.out.println("no user found");
 				return "login";
 			}
-			User usr = (User)user;
+			usr = (User)user;
 			session.setAttribute("usr", usr);
 			// System.out.println(usr);
 		}
-		
+		List<Product> products = powerService.getAllProducts();
+		HashMap<Product, User> productanduser = powerService.getUserAndProduct(products,usr);
 		// for(Product r:products)
 		// 	{
 		// 		System.out.println(r);

@@ -56,12 +56,13 @@ public class PowerService {
         return productDAO.findAll();
     }
 
-    public HashMap<Product, User> getUserAndProduct(List<Product> products)
+    public HashMap<Product, User> getUserAndProduct(List<Product> products, User user)
     {
         HashMap<Product, User> mp = new HashMap<Product, User>();
         for(Product product : products)
         {
-            mp.put(product,getUser(product.getUid()));
+            User seller = getUser(product.getUid());
+            if(seller.getUid() != user.getUid()) mp.put(product,seller);
         }
         return mp;
     }
